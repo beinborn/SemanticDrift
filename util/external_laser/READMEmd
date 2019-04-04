@@ -1,0 +1,3 @@
+The code in this directory has not been written by me. I copied it from the LASER code to access it directly here.
+I made some minor adjustments so that I can call the embedder from inside my functions.
+You need to install LASER to use it: https://github.com/facebookresearch/laser
