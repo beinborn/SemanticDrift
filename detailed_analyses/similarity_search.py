@@ -60,7 +60,7 @@ for l in range(len(target_langs)):
         ind = np.argmin(dist)
         n += 1
         # Nearest neighbour in language l is the translation of the sentence in English.
-        if (i == ind):
+        if i == ind:
             correct_counter += 1
         # Else, write incorrect nearest neighbours to a text file
         else:

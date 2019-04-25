@@ -80,7 +80,7 @@ def Token(inp_fname, out_fname, lang='en',
         # handle some iso3 langauge codes
         if lang in ('cmn', 'wuu', 'yue'):
             lang = 'zh'
-        if lang in ('jpn'):
+        if lang in 'jpn':
             lang = 'ja'
         if verbose:
             print(' - Tokenizer: {} in language {} {} {}'

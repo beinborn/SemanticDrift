@@ -1,10 +1,12 @@
-import pickle
 import os
-from util.evaluate_RSA import get_dists, compute_distance_over_dists
-from scipy.cluster.hierarchy import dendrogram, linkage
-from scipy.cluster import hierarchy
-from scipy.spatial.distance import pdist
+import pickle
+
 import matplotlib.pyplot as plt
+from scipy.cluster import hierarchy
+from scipy.cluster.hierarchy import dendrogram, linkage
+from scipy.spatial.distance import pdist
+
+from util.evaluate_RSA import get_dists, compute_distance_over_dists
 
 data_dir = "data/word-based/embeddings/"
 save_dir = "results/word-based/"

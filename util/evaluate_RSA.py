@@ -10,7 +10,9 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
-def get_dists(data, labels=[], ticklabels=[], distance="euclidean", save_dir="plots/"):
+def get_dists(data, labels=None, ticklabels=None, distance="euclidean", save_dir="plots/"):
+    if labels is None:
+        labels = []
     logging.info("Calculating dissimilarity matrix")
     x = {}
     C = {}

@@ -29,4 +29,4 @@ To reproduce our results, contact us to get the data and run step 2 and 3.
 3) For calculating the quantitative results, run *calculate_treescores.py*.
 
 # Requirements
-We used the libraries numpy, scipy and sklearn. For plotting, we used matplotlib. Check REQUIREMENTS.txt for details. 
+We use numpy, scipy, scikit_klearn and matplotlib. If you want to extract new word embeddings, you will also need torch. Check requirements.txt for details. 

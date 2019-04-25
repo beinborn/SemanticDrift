@@ -30,8 +30,8 @@ def pathToNode(root, path, k):
     if root.data == k:
         return True
 
-    if ((root.left != None and pathToNode(root.left, path, k)) or
-            (root.right != None and pathToNode(root.right, path, k))):
+    if ((root.left is not None and pathToNode(root.left, path, k)) or
+            (root.right is not None and pathToNode(root.right, path, k))):
         return True
 
     path.pop()
@@ -52,14 +52,14 @@ def distance(root, data1, data2):
                 break
             i = i + 1
 
-        return (len(path1) + len(path2) - 2 * i)
+        return len(path1) + len(path2) - 2 * i
     else:
         return 0
 
 
 def printTopToBottomPath(curr, parent):
     stk = []
-    while (curr):
+    while curr:
         stk.append(curr)
         curr = parent[curr]
 
@@ -79,11 +79,10 @@ def printTopToBottomPath(curr, parent):
 
 
 def printRootToLeaf(root):
-    if (root == None):
+    if root is None:
         return
 
-    nodeStack = []
-    nodeStack.append(root)
+    nodeStack = [root]
     parent = {}
     parent[root] = None
     while len(nodeStack) != 0:
@@ -91,14 +90,14 @@ def printRootToLeaf(root):
         current = nodeStack[-1]
         nodeStack.pop(-1)
 
-        if (not (current.left) and
-                not (current.right)):
+        if (not current.left and
+                not current.right):
             printTopToBottomPath(current, parent)
 
-        if (current.right):
+        if current.right:
             parent[current.right] = current
             nodeStack.append(current.right)
-        if (current.left):
+        if current.left:
             parent[current.left] = current
             nodeStack.append(current.left)
 
@@ -134,7 +133,7 @@ def distance2(root, data1, data2):
                 break
             i = i + 1
 
-        return (len(path1) + len(path2) - 2 * i)
+        return len(path1) + len(path2) - 2 * i
     else:
         return 0
 
@@ -174,7 +173,7 @@ def computeDistanceScore(testroot, rootg, ids, order):
     for i in ids:
         counter2 = 0
         for j in ids:
-            if (i != j):
+            if i != j:
                 dist1 = distance2(testroot, i, j)
                 t1 = get_key(order[counter1])
                 t2 = get_key(order[counter2])
@@ -262,6 +261,7 @@ def get_gold_tree():
     rootg.right.right.left.right.left = Node(7)
     rootg.right.right.left.right.right = Node(15)
     return rootg
+
 
 # Tree by Rabinovich
 def get_rabinovich_tree():
@@ -358,7 +358,7 @@ def calculate_score_for_random_trees():
     matrix = random_matrices[index_min]
     print(matrix.shape)
     print(matrix)
-    return (mean, maxi, mean/maxi)
+    return mean, maxi, mean / maxi
 
 
 

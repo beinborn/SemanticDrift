@@ -64,7 +64,7 @@ dcoord = [[0.0, 0.5, 0.5, 0.0], [0.5, 1.0, 1.0, 0.0], [1.0, 1.5, 1.5, 0.0], [0.0
 ivl = ["sl", "pl", "lt", 'bg', 'sl', 'cs', "pt", "lt", "ro", "da", "sv", "en", "nl", "de", "es", "fr", "it"]
 # Prepare Plot
 threshold = 1.5
-fig = plt.figure(figsize=(25, 10))
+
 plt.title("Rabinovich Tree", fontsize=20)
 plt.yticks([])
 plt.tick_params(labelsize=16)

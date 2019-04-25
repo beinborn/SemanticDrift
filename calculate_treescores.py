@@ -1,15 +1,13 @@
 from util.compute_tree_score import *
 
-
 gold = get_gold_tree()
 rabinovich = get_rabinovich_tree()
 
 rabinovich_score = calc_score_for_hardcoded_tree(gold, rabinovich)
 
 # We obtained this score by running calculate_score_for_random_trees, we hard-code it here for reproducibility
-#calculate_score_for_random_trees()
+# calculate_score_for_random_trees()
 most_distant_tree_score = 4520
-
 
 print("Rabinovich Score: ", rabinovich_score)
 print("Rabinovich Normalized score: ", rabinovich_score / most_distant_tree_score)
@@ -23,11 +21,4 @@ for category in ["short", "mid", "long"]:
     print("Category: " + category)
     print("Score: ", score)
     print("Normalized score: ")
-    print("%.3f" % (score/most_distant_tree_score))
-
-
-
-
-
-
-
+    print("%.3f" % (score / most_distant_tree_score))
