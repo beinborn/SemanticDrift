@@ -1,5 +1,8 @@
 # Semantic Drift in Multilingual Representations
-This repository contains code for our experiments in the 2019 CL-submission *Semantic Drift in Multilingual Representations*. We did not upload the extracted embeddings to github because they are too big. If you want to be sure to use the exact same data, contact us and we will make it available.   
+The repository contains code for our experiments which are described in:
+Lisa Beinborn and Rochelle Choenni (2019): *Semantic Drift in Multilingual Representations*, https://arxiv.org/pdf/1904.10820.pdf. 
+
+We did not upload the extracted embeddings to github because they are too big. If you want to be sure to use exactly the same data, contact us and we will make it available.   
 
 # Word-based experiments 
 To reproduce our results, contact us to get the data and run step 3. If you want to customize the pipeline, run the following steps:
