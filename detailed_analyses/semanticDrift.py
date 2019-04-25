@@ -13,10 +13,11 @@ from util.muse_utils import load_vec
 
 
 # Set directories
+# TODO: adjust MUSE_DIR to point to your local directory with pre-trained Muse embeddings
+embedding_dir = 'MUSE_DIR'
 data_dir = "../data/word-based/embeddings/"
 save_dir = "../results/word-based/"
 os.makedirs(save_dir, exist_ok=True)
-embedding_dir = '/Users/lisa/Corpora/embeddings/multilingual/'
 
 nmax = 200000  # maximum number of word embeddings to load
 # Selected languages

@@ -27,3 +27,6 @@ To reproduce our results, contact us to get the data and run step 2 and 3.
 2) For the clustering results, run *clustering_sentencebased.py*. The results will be saved in *results/sentence-based/*.
 
 3) For calculating the quantitative results, run *calculate_treescores.py*.
+
+# Requirements
+We used the libraries numpy, scipy and sklearn. For plotting, we used matplotlib. Check REQUIREMENTS.txt for details. 

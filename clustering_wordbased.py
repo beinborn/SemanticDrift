@@ -1,7 +1,6 @@
 import pickle
 import os
 from util.evaluate_RSA import get_dists, compute_distance_over_dists
-import numpy as np
 from scipy.cluster.hierarchy import dendrogram, linkage
 from scipy.cluster import hierarchy
 from scipy.spatial.distance import pdist

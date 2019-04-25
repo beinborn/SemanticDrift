@@ -5,7 +5,7 @@ from util.muse_utils import load_vec, get_nn
 
 # This code extracts the Muse embeddings for our test lists and saves them to save_dir
 # Make sure to adjust data_dir to your local one
-data_dir = '/Users/lisa/Corpora/embeddings/multilingual/'
+data_dir = 'MUSE_DIR'
 en_path = data_dir + "wiki.multi.en.vec"
 save_dir = "data/word-based"
 
