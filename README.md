@@ -1,5 +1,6 @@
 # Semantic Drift in Multilingual Representations
 The repository contains code for our experiments which are described in:
+
 Lisa Beinborn and Rochelle Choenni (2019): *Semantic Drift in Multilingual Representations*, https://arxiv.org/pdf/1904.10820.pdf. 
 
 We did not upload the extracted embeddings to github because they are too big. If you want to be sure to use exactly the same data, contact us and we will make it available.   
