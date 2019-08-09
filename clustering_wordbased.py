@@ -1,6 +1,6 @@
 import os
 import pickle
-
+import numpy as np
 import matplotlib.pyplot as plt
 from scipy.cluster import hierarchy
 from scipy.cluster.hierarchy import dendrogram, linkage
@@ -16,12 +16,12 @@ os.makedirs(save_dir, exist_ok=True)
 lists = ["Swadesh", "Pereira"]
 
 # All languages
-# languages = ["it", "pt", "es", "ca", "fr", "en", "nl", "de", "sv", "da", "no", "fi", "et", "ru", "uk", "mk", "bg", "ro",
-#             "pl", "cs", "sk", "sl", "hr", "hu", "el", "he", "tr", "id"]
+languages = ["it", "pt", "es", "ca", "fr", "en", "nl", "de", "sv", "da", "no", "fi", "et", "ru", "uk", "mk", "bg", "ro",
+             "pl", "cs", "sk", "sl", "hr", "hu", "el", "he", "tr", "id"]
 
 
 # Languages for the gold tree
-languages =  ["it", "pt", "es", "ca", "fr", "en", "nl", "de", "sv", "da", "no",  "ru", "uk",  "bg", "ro", "pl", "cs", "sk", "sl", "hr"]
+#languages =  ["it", "pt", "es", "ca", "fr", "en", "nl", "de", "sv", "da", "no",  "ru", "uk",  "bg", "ro", "pl", "cs", "sk", "sl", "hr"]
 print(len(languages))
 # If you want to reproduce figure 2:   RSA for pt, es, fr, de, fi
 #languages = ["pt","es","fr", "de", "fi"]
@@ -32,34 +32,41 @@ for name in lists:
     words = []
     vectors = []
 
-    for lang in languages:
-        print("Read vectors for " + lang)
-        with open(data_dir + name + "_embeddings." + lang + ".pickle", 'rb') as handle:
-            langdict = pickle.load(handle)
-        langdicts.append(langdict)
-        print(langdict.keys())
-        # get words
-        if len(words) == 0:
-            words = list(langdicts[0].keys())
+    distance_matrix_name = save_dir + "distancematrix_" + name+ ".pickle"
+    if not os.path.isfile(distance_matrix_name):
+        for lang in languages:
+            print("Read vectors for " + lang)
+            with open(data_dir + name + "_embeddings." + lang + ".pickle", 'rb') as handle:
+                langdict = pickle.load(handle)
+            langdicts.append(langdict)
+            print(langdict.keys())
+            # get words
+            if len(words) == 0:
+                words = list(langdicts[0].keys())
 
-        # get vectors
-        langvectors = []
-        for word in words:
-            langvectors.append(langdict[word])
-        vectors.append(langvectors)
+            # get vectors
+            langvectors = []
+            for word in words:
+                langvectors.append(langdict[word])
+            vectors.append(langvectors)
 
-    ### Representational Similarity Analysis
-    # Calculate similarity matrices for all languages
-    x, C = get_dists(vectors, labels=languages, ticklabels=words, distance="cosine", save_dir=save_dir+name)
+        ### Representational Similarity Analysis
+        # Calculate similarity matrices for all languages
+        x, C = get_dists(vectors, labels=languages, ticklabels=words, distance="cosine", save_dir=save_dir+name)
 
-    # Calculate RSA over all languages
-    distance_matrix = compute_distance_over_dists(x, C, languages, save_dir=save_dir+name)
+        # Calculate RSA over all languages
+        distance_matrix = compute_distance_over_dists(x, C, languages, save_dir=save_dir+name)
 
 
-    #
-    # Save distance matrix
-    with open(save_dir + "ComparisonToGold_distancematrix_" + name +".pickle", 'wb') as handle:
-        pickle.dump(distance_matrix, handle)
+        #
+        # Save distance matrix
+        with open(save_dir + "_distancematrix_" + name +".pickle", 'wb') as handle:
+            pickle.dump(distance_matrix, handle)
+
+    else:
+        # If distance matrix has been calculated and you just want to adjust the plot, you can also load it directly
+        with open(distance_matrix_name, 'rb') as handle:
+            distance_matrix = pickle.load(handle)
     #
     # ### CLUSTERING
     method = "ward"
@@ -85,10 +92,9 @@ for name in lists:
         threshold = 0.7
 
     #When comparing to gold tree, adjust the color coding by uncommenting this:
-    threshold = 0.9
-    hierarchy.set_link_color_palette(['c', 'r', 'm', 'b'])
-    plt.yticks([])
-    plt.ylabel('', fontsize=20)
+    # threshold = 0.9
+    # hierarchy.set_link_color_palette(['c', 'r', 'm', 'b'])
+
     # Increase edge thickness
     with plt.rc_context({'lines.linewidth': 2.0}):
         results = dendrogram(
@@ -104,6 +110,15 @@ for name in lists:
         )
 
     print(cluster_results)
-    plt.savefig(save_dir + "ComparisonToGold_Dendrogram_" + name + "_" + method + str(int(threshold * 100)) + ".png")
+    plt.savefig(save_dir + "Dendrogram_" + name + "_" + method + str(int(threshold * 100)) + ".png")
 
-# TODO: get results for combining both lists
+    # # Additional analysis: check variance of similarity scores
+    # upper_part = np.triu(distance_matrix,1)
+    # # Flatten and remove all zeros
+    # flattened = np.matrix.flatten(upper_part)
+    # scores = [x for x in flattened if not x==0]
+    # var = np.var(np.asarray(scores))
+    # mean = np.mean(np.asarray(scores))
+    # print(scores)
+    # print("Variance of similarity scores: ")
+    # print(name, var, mean)

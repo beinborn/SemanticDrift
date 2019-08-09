@@ -8,8 +8,8 @@ import numpy as np
 # This code reproduces Figure 1 in the paper.
 
 # Set folders
-data_dir = "data/embeddings"
-save_dir = "results"
+data_dir = "../data/word-based/embeddings/"
+save_dir = "../results/word-based/"
 os.makedirs(save_dir, exist_ok=True)
 
 # Initialize variables
@@ -61,8 +61,8 @@ for lang in languages:
     ax.set_yticks(np.arange(data.shape[0]))
 
     # Label matrix with words
-    ax.set_xticklabels(words[lang], fontsize =14)
-    ax.set_yticklabels(words[lang],  fontsize =14)
+    ax.set_xticklabels(words[lang], fontsize =18)
+    ax.set_yticklabels(words[lang],  fontsize =16)
 
     # Let the horizontal axes labeling appear on top.
     ax.tick_params(top=True, bottom=False,
@@ -76,9 +76,10 @@ for lang in languages:
     ax.set_yticks(np.arange(0, data.shape[0] + 1) - 0.5, minor=True)
 
 
-fig.subplots_adjust(top = 0.99, bottom=0.01,right = 0.8,  wspace=0.4)
+fig.subplots_adjust(top = 0.99, bottom=0.01,right = 0.8,  wspace=0.3)
 
-cbar_ax = fig.add_axes([0.87, 0.32, 0.02, 0.35])
+cbar_ax = fig.add_axes([0.875, 0.32, 0.015, 0.37])
+cbar_ax.tick_params(axis='y', labelsize=12)
 fig.colorbar(im, cax=cbar_ax)
 fig.savefig(save_dir + "selectedWords.png")
 

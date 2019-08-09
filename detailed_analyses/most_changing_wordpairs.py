@@ -7,8 +7,8 @@ import os
 # This code reproduces Figure 3 of the paper
 
 # Set directories
-data_dir = "data/word-based/embeddings/"
-save_dir = "results/word-based/"
+data_dir = "../data/word-based/embeddings/"
+save_dir = "../results/word-based/"
 os.makedirs(save_dir, exist_ok=True)
 
 # Initialize variables
@@ -47,14 +47,32 @@ for lang in languages:
 # Calculate cosine similarities
 x, C = get_dists(vectors, labels=languages, ticklabels=words, distance="cosine")
 
+
 pairs = {}
 
-# Extract the similarity value for a word pair for all languages
+# Extra analysis for reviewer!
+# Check languages with max and min values in examples
+
+# for lang in ["et", "hu", "el", "he", "it", "pt", "es"]:
+#     id = languages.index(lang)
+#     similarities = np.array(C[id])
+#     #Mask the lower part with zeros (including the diagonal)
+#     upper_part = np.triu(similarities,1)
+#     # Flatten and remove all zeros
+#     flattened = np.matrix.flatten(upper_part)
+#     similarities = [x for x in flattened if not x==0]
+#     print(lang)
+#     print(np.mean(similarities), np.var(similarities))
+
+
+
+#Extract the similarity value for a word pair for all languages
 for word1 in range(0, len(words)):
     for word2 in range(0, len(words)):
         if word1 < word2:
             similarities = np.array([C[lang][word1][word2] for lang in range(0, len(C))])
             pairs[(words[word1], words[word2])] = similarities
+
 
 # Calculate variance of similarities
 var = {}

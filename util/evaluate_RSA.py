@@ -70,10 +70,10 @@ def compute_distance_over_dists(x, C, labels, save_dir="plots/RSA_"):
     #print(spearman)
     # Uncomment this, if you want to plot the matrix and save it.
     # name = save_dir.split("/")[-1]
-    # im, cbar = get_plot(spearman, labels, cbarlabel="Spearman Correlation")
-    # plt.savefig(save_dir + "RSA_Spearman_sentences.png")
-    # # Save the matrix
-    # write_matrix(spearman, save_dir + "RSA_Spearman.txt", labels=labels)
+    im, cbar = get_plot(spearman, labels, cbarlabel="Spearman Correlation")
+    plt.savefig(save_dir + "RSA_Spearman.png")
+    # Save the matrix
+    write_matrix(spearman, save_dir + "RSA_Spearman.txt", labels=labels)
     return spearman
 
 
@@ -127,16 +127,16 @@ def heatmap(data, row_labels, col_labels, ax=None,
     # create an axis on the right side of ax. The width of cax will be 5%
     # of ax and the padding between cax and ax will be fixed at 0.1 inch.
     divider = make_axes_locatable(ax)
-    cax = divider.append_axes("right", size="5%", pad=1.1)
+    cax = divider.append_axes("right", size="8%", pad=3.6)
     cbar = ax.figure.colorbar(im, ax=ax, cax=cax, **cbar_kw)
-    cax.set_ylabel(cbarlabel, fontsize=20)
-    cax.tick_params(axis='y', labelsize=16)
+    cax.set_ylabel(cbarlabel, fontsize=40, labelpad=40)
+    cax.tick_params(axis='y', labelsize=36)
     # We want to show all ticks...
     ax.set_xticks(np.arange(data.shape[1]))
     ax.set_yticks(np.arange(data.shape[0]))
     # ... and label them with the respective list entries.
-    ax.set_xticklabels(col_labels, fontsize=26)
-    ax.set_yticklabels(row_labels, fontsize=26)
+    ax.set_xticklabels(col_labels, fontsize=48)
+    ax.set_yticklabels(row_labels, fontsize=48)
 
     # Let the horizontal axes labeling appear on top.
     ax.tick_params(top=True, bottom=False,

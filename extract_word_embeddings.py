@@ -7,15 +7,15 @@ from util.muse_utils import load_vec, get_nn
 # Make sure to adjust data_dir to your local one
 data_dir = 'MUSE_DIR'
 en_path = data_dir + "wiki.multi.en.vec"
-save_dir = "data/word-based"
+save_dir = "data/word-based/"
 
 # Initialize variables
 nmax = 200000  # maximum number of word embeddings to load
 src_embeddings, src_id2word, src_word2id = load_vec(en_path, nmax)
 words_en = []
 vectors_en = []
-swadesh_file = "data/Swadesh_List.csv"
-pereira_file = "data/Pereira_List.csv"
+swadesh_file = "data/word-based/Swadesh_List.csv"
+pereira_file = "data/word-based/Pereira_List.csv"
 
 # We exclude arabic (because the provided file has a technical problem) and vietnamese (because the quality seems off)
 languages =["es", "fr", "it",  "de", "nl", "sv","fi", "ru", "cs", "hu",   "tr", "mk","id", "bg", "ca", "da", "et", "he", "no", "pl", "pt","ro", "sk", "sl", "uk", "el", "hr"]
@@ -68,8 +68,12 @@ for word_file in [pereira_file, swadesh_file]:
             pickle.dump(vectors_l2, handle)
 
     # Save all translations in one file for quality checks
-    with open(save_dir+ name + "_MuseTranslations.csv", "w",
+    with open(save_dir+ name + "_Muse_NearestNeighbors.csv", "w",
               encoding="utf-8") as out:
+        for l in languages:
+            out.write(l+ "\t")
+        out.write("\n")
+
         for i in range(0, len(words_en)):
             out.write(words_en[i] + "\t")
             for k in range(0, len(languages)):

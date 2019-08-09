@@ -3,15 +3,32 @@ import pickle
 from scipy.cluster.hierarchy import dendrogram, linkage, to_tree, leaves_list
 from scipy.spatial.distance import pdist
 import numpy as np
-global target_langs
-target_langs = ["en", "de", "nl", "fr", "es", "bg", "da", "cs", "pl", "pt", "it", "ro", "sk", "sl", "sv", 'lt', 'lv']
+import argparse
 
-global leaves
-leaves = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 
-leave_lang_dict = {}
-for i in range(len(leaves)):
-    leave_lang_dict[leaves[i]] = target_langs[i]
+def set_variables(experiment):
+    global target_langs
+    global leaves
+    global leave_lang_dict
+    if (experiment == 'sentence'):
+        target_langs = ["en", "de", "nl", "fr", "es", "bg", "da", "cs", "pl", "pt", "it", "ro", "sk", "sl", "sv", 'lt',
+                        'lv']
+
+        leaves = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+
+        leave_lang_dict = {}
+        for i in range(len(leaves)):
+            leave_lang_dict[leaves[i]] = target_langs[i]
+
+    elif (experiment == 'word'):
+        target_langs = ["it", "pt", "es", "ca", "fr", "en", "nl", "de", "sv", "da", "no", "ru", "uk", "bg", "ro",
+                        "pl", "cs", "sk", "sl", "hr"]
+
+        leaves = [11, 10, 5, 16, 4, 1, 3, 2, 15, 7, 17, 18, 19, 6, 12, 9, 8, 13, 14, 20]
+
+        leave_lang_dict = {}
+        for i in range(len(leaves)):
+            leave_lang_dict[leaves[i]] = target_langs[i]
 
 
 class Node:
@@ -145,7 +162,7 @@ def get_key(val):
 
 
 def getTreeData(distance_matrix):
-    global target_langs
+    # global target_langs
 
     cluster_results = linkage(pdist(distance_matrix), method="ward")
 
@@ -166,7 +183,6 @@ def getTreeData(distance_matrix):
     return testroot, ids, order
 
 
-
 def computeDistanceScore(testroot, rootg, ids, order):
     score = 0
     counter1 = 0
@@ -184,8 +200,9 @@ def computeDistanceScore(testroot, rootg, ids, order):
     return score
 
 
-def calc_score_for_hardcoded_tree(root, rootg):
-    global leaves
+def calc_score_for_hardcoded_tree(root, rootg, experiment):
+    set_variables(experiment)
+    # global leaves
     score = 0
     for i in leaves:
         for j in leaves:
@@ -196,70 +213,149 @@ def calc_score_for_hardcoded_tree(root, rootg):
     return score
 
 
-def get_distance(distance_matrix, rootg):
+def get_distance(distance_matrix, rootg, experiment):
+    set_variables(experiment)
     testroot, ids, order = getTreeData(distance_matrix)
     return computeDistanceScore(testroot, rootg, ids, order)
 
 
 # Hardcoded gold tree
-def get_gold_tree():
+def get_gold_tree(experiment):
     rootg = Node(0)
-    rootg.left = Node(18)
-    rootg.left.left = Node(19)
-    rootg.left.right = Node(20)
-    # lt lv
-    rootg.left.right.left = Node(16)
-    rootg.left.right.right = Node(17)
+    if (experiment == 'sentence'):
+        rootg.left = Node(18)
+        rootg.left.left = Node(19)
+        rootg.left.right = Node(20)
+        # lt lv
+        rootg.left.right.left = Node(16)
+        rootg.left.right.right = Node(17)
 
-    rootg.left.left.left = Node(21)
-    rootg.left.left.right = Node(22)
+        rootg.left.left.left = Node(21)
+        rootg.left.left.right = Node(22)
 
-    # sl bg
-    rootg.left.left.left.left = Node(6)
-    rootg.left.left.left.right = Node(14)
+        # sl bg
+        rootg.left.left.left.left = Node(6)
+        rootg.left.left.left.right = Node(14)
 
+        rootg.left.left.right.left = Node(23)
+        rootg.left.left.right.right = Node(9)
+        # cs sk
+        rootg.left.left.right.left.left = Node(8)
+        rootg.left.left.right.left.right = Node(13)
+        # pl
+        rootg.left.left.right.right = Node(9)
 
-    rootg.left.left.right.left = Node(23)
-    rootg.left.left.right.right = Node(9)
-    # cs sk
-    rootg.left.left.right.left.left = Node(8)
-    rootg.left.left.right.left.right = Node(13)
-    # pl
-    rootg.left.left.right.right = Node(9)
+        # RIGHT
+        rootg.right = Node(25)
+        rootg.right.left = Node(26)
+        # ro
+        rootg.right.left.right = Node(12)
+        rootg.right.right = Node(27)
 
-    # RIGHT
-    rootg.right = Node(25)
-    rootg.right.left = Node(26)
-    # ro
-    rootg.right.left.right = Node(12)
-    rootg.right.right = Node(27)
+        rootg.right.left.left = Node(24)
+        # fr
+        rootg.right.left.left.right = Node(4)
 
-    rootg.right.left.left = Node(24)
-    # fr
-    rootg.right.left.left.right = Node(4)
+        rootg.right.left.left.left = Node(28)
+        # it
+        rootg.right.left.left.left.right = Node(11)
 
-    rootg.right.left.left.left = Node(28)
-    # it
-    rootg.right.left.left.left.right = Node(11)
+        rootg.right.left.left.left.left = Node(31)
+        # pt es
+        rootg.right.left.left.left.left.left = Node(10)
+        rootg.right.left.left.left.left.right = Node(5)
 
-    rootg.right.left.left.left.left = Node(31)
-    # pt es
-    rootg.right.left.left.left.left.left = Node(10)
-    rootg.right.left.left.left.left.right = Node(5)
+        rootg.right.right.left = Node(32)
+        # en
+        rootg.right.right.right = Node(1)
 
-    rootg.right.right.left = Node(32)
-    # en
-    rootg.right.right.right = Node(1)
+        rootg.right.right.left.left = Node(29)
+        # nl de
+        rootg.right.right.left.left.left = Node(3)
+        rootg.right.right.left.left.right = Node(2)
 
-    rootg.right.right.left.left = Node(29)
-    # nl de
-    rootg.right.right.left.left.left = Node(3)
-    rootg.right.right.left.left.right = Node(2)
+        rootg.right.right.left.right = Node(30)
+        # da sv
+        rootg.right.right.left.right.left = Node(7)
+        rootg.right.right.left.right.right = Node(15)
 
-    rootg.right.right.left.right = Node(30)
-    # da sv
-    rootg.right.right.left.right.left = Node(7)
-    rootg.right.right.left.right.right = Node(15)
+    elif (experiment == 'word'):
+        rootg.left = Node(21)
+        rootg.left.left = Node(22)
+        rootg.left.right = Node(23)
+
+        # pl
+        rootg.left.right.right = Node(9)
+
+        rootg.left.right.left = Node(24)
+        rootg.left.right.left.right = Node(25)
+
+        # hr
+        rootg.left.right.left.right.right = Node(20)
+
+        rootg.left.right.left.left = Node(26)
+
+        rootg.left.right.left.right.left = Node(27)
+
+        # sl bg
+        rootg.left.left.left = Node(6)
+        rootg.left.left.right = Node(14)
+
+        # rootg.left.left.right.left = Node(28)
+        # pl
+        rootg.left.right.right = Node(9)
+
+        # ru uk
+        rootg.left.right.left.left.left = Node(18)
+        rootg.left.right.left.left.right = Node(19)
+
+        # cs sk
+        rootg.left.right.left.right.left.left = Node(8)
+        rootg.left.right.left.right.left.right = Node(13)
+
+        # RIGHT
+        rootg.right = Node(28)
+        rootg.right.left = Node(29)
+        # ro
+        rootg.right.left.right = Node(12)
+        rootg.right.right = Node(30)
+
+        rootg.right.left.left = Node(31)
+        # fr
+        rootg.right.left.left.right = Node(4)
+
+        rootg.right.left.left.left = Node(32)
+
+        # ca
+        rootg.right.left.left.left.right = Node(16)
+        rootg.right.left.left.left.left = Node(33)
+
+        # it
+        rootg.right.left.left.left.left.right = Node(11)
+
+        rootg.right.left.left.left.left.left = Node(34)
+        # pt es
+        rootg.right.left.left.left.left.left.left = Node(10)
+        rootg.right.left.left.left.left.left.right = Node(5)
+
+        rootg.right.right.left = Node(35)
+        # en
+        rootg.right.right.right = Node(1)
+
+        rootg.right.right.left.left = Node(36)
+        # nl de
+        rootg.right.right.left.left.left = Node(3)
+        rootg.right.right.left.left.right = Node(2)
+
+        rootg.right.right.left.right = Node(37)
+        # da sv
+        rootg.right.right.left.right.left = Node(38)
+
+        rootg.right.right.left.right.left.left = Node(17)
+        rootg.right.right.left.right.left.right = Node(7)
+
+        rootg.right.right.left.right.right = Node(15)
+
     return rootg
 
 
@@ -327,33 +423,29 @@ def get_rabinovich_tree():
     rabi.right.right.right = Node(11)
     return rabi
 
-def calculate_score_for_random_trees():
+
+def calculate_score_for_random_trees(experiment):
     # This code generates 50000 random trees and calculates the average score.
     # This was the procedure recommended by Rabinovich et al., but they used only 1000 iterations.
     # As the variance of the scores is quite high, we increased the number of iterations
-    # We obtained the following values and used them below:
-    # Mean = 2848
-    # Max = 4520
-    # Normalized mean = 0.630
     random_scores = []
     random_matrices = []
 
-    rootg = get_gold_tree()
+    rootg = get_gold_tree(experiment)
     num_iterations = 50000
     for i in range(num_iterations):
-        print(str(i) +" / " + num_iterations)
-        distance_matrix = np.random.uniform(low=0.3, high=0.8, size=(17,17) )
-        score = get_distance(distance_matrix, rootg)
+        print(str(i) + " / " + str(num_iterations))
+        distance_matrix = np.random.uniform(low=0.3, high=0.8, size=(17, 17))
+        score = get_distance(distance_matrix, rootg, experiment)
         random_scores.append(score)
         random_matrices.append(distance_matrix)
 
-
     mean = round(np.mean(random_scores))
-    print("Average random score: ", mean )
+    print("Average random score: ", mean)
     maxi = max(random_scores)
-    print("Highest random score: ", maxi )
+    print("Highest random score: ", maxi)
 
-    print("Normalized average random score: ", mean/maxi )
+    print("Normalized average random score: ", mean / maxi)
     index_min = np.argmax(random_scores)
     matrix = random_matrices[index_min]
     print(matrix.shape)

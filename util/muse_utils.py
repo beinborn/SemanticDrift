@@ -33,3 +33,27 @@ def get_nn(word, src_emb, src_id2word, tgt_emb, tgt_id2word, K=5):
     # Return the k-nearest neighbours
     k_best = scores.argsort()[-K:][::-1]
     return k_best, scores, tgt_id2word
+
+# # Quality check: nearest Russian neighbours of "small"
+# word ="small"
+#
+# # Load English and Russian embeddings
+# #data_dir = 'MUSE_DIR'
+# data_dir = '/Users/lisa/Corpora/Muse_embeddings/multilingual/'
+# en_path = data_dir + "wiki.multi.en.vec"
+#
+# nmax = 200000  # maximum number of word embeddings to load
+#
+# src_embeddings, src_id2word, src_word2id = load_vec(en_path, nmax)
+# vector = src_embeddings[src_word2id[word]]
+#
+# l2_path = data_dir + "wiki.multi.ru.vec"
+# l2_embeddings, l2_id2word, l2_word2id = load_vec(l2_path, nmax)
+#
+# # Get nearest neighbors
+# k =10
+# k_best, scores, tgt_id2word = get_nn(word, src_embeddings, src_id2word, l2_embeddings, l2_id2word, K=k)
+#
+# for i, idx in enumerate(k_best):
+#     print('%.4f - %s' % (scores[idx], tgt_id2word[idx]))
+

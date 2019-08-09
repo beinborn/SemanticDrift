@@ -51,25 +51,34 @@ for category in startpoints.keys():
     threshold = 0.22
     cluster_results = linkage(pdist(distance_matrix), method=method)
 
-    plt.figure(figsize=(25, 10))
-    plt.title("Europarl", fontsize=20)
+    plt.figure(figsize=(25, 5))
+    plt.title("Europarl", fontsize=24)
 
-    plt.ylabel('Distance', fontsize=16)
+    plt.ylabel('Distance', fontsize=20)
     plt.tick_params(labelsize=16)
 
 
     hierarchy.set_link_color_palette([ 'r', 'm', 'c', 'g'])
+    with plt.rc_context({'lines.linewidth': 2.0}):
+        results = dendrogram(
+            cluster_results,
+            labels=languages,
+            count_sort=False,
+            leaf_font_size=26.,
+            color_threshold=threshold,
+            above_threshold_color='k'
 
-
-    results = dendrogram(
-        cluster_results,
-        labels=languages,
-        count_sort=False,
-        leaf_font_size=18.,
-        color_threshold=threshold,
-        above_threshold_color='k'
-
-    )
+        )
 
     plt.savefig(result_dir + "Dendrogram_" + category+"_"+  method + str(int(threshold * 100)) + ".png")
 
+    # # Additional analysis: check variance of similarity scores
+    # upper_part = np.triu(distance_matrix,1)
+    # # Flatten and remove all zeros
+    # flattened = np.matrix.flatten(upper_part)
+    # scores = [x for x in flattened if not x==0]
+    # var = np.var(np.asarray(scores))
+    # mean = np.mean(np.asarray(scores))
+    # print(scores)
+    # print("Variance of similarity scores: ")
+    # print(category, var, mean)

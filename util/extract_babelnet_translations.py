@@ -1,12 +1,17 @@
 import requests
 import pickle
 import os
-def query_babelnet_synsets(word):
-    # TODO Careful, do not add this to github!
-    print("Querying ", word)
-    key = "f31b3e82-8bce-4676-913d-437ae96fec42"
-    senseurl = "https://babelnet.io/v5/getSynsetIds?"
 
+# This code can be used to query translations from Babelnet.
+# Make sure to get a babelnet key and set it accordingly.
+# By default, you can only do 1000 queries a day. You might want to ask for more.
+
+key = "YOUR_KEY"
+
+def query_babelnet_synsets(word):
+    print("Querying ", word)
+
+    senseurl = "https://babelnet.io/v5/getSynsetIds?"
     params = dict(lemma=word, searchLang="EN", key=key)
 
     # Get all synsets for the word
@@ -16,8 +21,6 @@ def query_babelnet_synsets(word):
 
 def query_babelnet_translations(id, languages):
 
-    # TODO Careful, do not add this to github!
-    key = "f31b3e82-8bce-4676-913d-437ae96fec42"
     translationurl = "https://babelnet.io/v5/getSynset?"
 
     # Query the synset and request its entries in the target languages
@@ -50,11 +53,12 @@ def query_babelnet_translations(id, languages):
 
     return l1,l2,l3
 
-swadesh_file = "data/word-based/Swadesh_List.csv"
-pereira_file = "data/word-based/Pereira_List.csv"
+
+# Query translations for our stimuly
+swadesh_file = "../data/word-based/Swadesh_List.csv"
+pereira_file = "../data/word-based/Pereira_List.csv"
 save_dir = "data/word-based/babelnet_translations/"
 
-# Double-check which languages can be found in babelnet
 languages =["es", "fr", "it",  "de", "nl", "sv","fi", "ru", "cs", "hu",  "tr", "mk","id", "bg", "ca", "da", "et", "he", "no", "pl", "pt","ro", "sk", "sl", "uk", "el", "hr"]
 
 synset_file = save_dir + "synsets.pickle"
@@ -67,9 +71,7 @@ if not os.path.isfile(synset_file):
                 word = line.split(",")[0].lower()
                 words.add(word)
 
-    print(len(words), words)
-
-    # Query translations
+    # Query synsets
     word_synsets ={}
     for word in words:
         synsets = query_babelnet_synsets(word)
@@ -83,22 +85,26 @@ else:
 
 sorted_words = sorted(word_synsets.keys())
 
-# We can only query 3 languages at a time
-query_languages = languages[24:27]
+# We can only query 3 languages at a time, adjust to your needs
+query_languages = languages[0:3]
 
 # Change the start value manually if you have a limited number of requests per day
-start = 218
+start = 0
 for i in range(start, len(sorted_words)):
     word =sorted_words[i]
     print(i,word)
     synsets = word_synsets[word]
 
+    # Initialize counters
     translations_l1 = set()
     translations_l2 = set()
     translations_l3 = set()
+
+    # Initialize out files
     l1_file = open(save_dir +"en_" + query_languages[0] +".txt", "a")
     l2_file = open(save_dir + "en_" + query_languages[1] + ".txt", "a")
     l3_file = open(save_dir + "en_" + query_languages[2] + ".txt", "a")
+
     for entry in synsets:
         id = entry["id"]
         l1, l2, l3 = query_babelnet_translations(id, query_languages)
@@ -108,35 +114,11 @@ for i in range(start, len(sorted_words)):
     print(translations_l1)
     print(translations_l2)
     print(translations_l3)
+
+    # Output
     l1_file.write(word + "\t" + str(translations_l1) + "\n")
     l2_file.write(word + "\t" + str(translations_l2) + "\n")
     l3_file.write(word + "\t" + str(translations_l3) + "\n")
-
-
-
-
-
-# TODO: quality evaluation -> do separately! But output detailed results!
-    # print(word, neighbor, gold_translations)
-    # if neighbor in gold_translations:
-    #     # print(word, neighbor, gold_translations[word])
-    #     if neighbor in gold_translations:
-    #         exact_matches += 1
-    #         print(word, "perfect match")
-    #     elif neighbor == word:
-    #         loanword += 1
-    #         print(word, "loanword")
-    # else:
-    #     matches = get_close_matches(neighbor, gold_translations)
-    #     if matches != []:
-    #         close_matches += 1
-    #         print(word, matches)
-    #     else:
-    #         not_in_dict += 1
-    #         print(word, "not found")
-    #
-    # quality = (exact_matches + close_matches + loanword) / float(len(neighbors.keys())-not_in_dict)
-    # print(l, exact_matches, close_matches, loanword, not_in_dict, quality)
 
 
 
