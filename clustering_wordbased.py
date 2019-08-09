@@ -16,11 +16,18 @@ os.makedirs(save_dir, exist_ok=True)
 lists = ["Swadesh", "Pereira"]
 
 # All languages
-languages = ["it", "pt", "es", "ca", "fr", "en", "nl", "de", "sv", "da", "no", "fi", "et", "ru", "uk", "mk", "bg", "ro",
-             "pl", "cs", "sk", "sl", "hr", "hu", "el", "he", "tr", "id"]
+# languages = ["it", "pt", "es", "ca", "fr", "en", "nl", "de", "sv", "da", "no", "fi", "et", "ru", "uk", "mk", "bg", "ro",
+#             "pl", "cs", "sk", "sl", "hr", "hu", "el", "he", "tr", "id"]
 
+
+# Languages for the gold tree
+languages =  ["it", "pt", "es", "ca", "fr", "en", "nl", "de", "sv", "da", "no",  "ru", "uk",  "bg", "ro", "pl", "cs", "sk", "sl", "hr"]
+print(len(languages))
+# If you want to reproduce figure 2:   RSA for pt, es, fr, de, fi
+#languages = ["pt","es","fr", "de", "fi"]
 for name in lists:
     print(name)
+
     langdicts = []
     words = []
     vectors = []
@@ -48,11 +55,13 @@ for name in lists:
     # Calculate RSA over all languages
     distance_matrix = compute_distance_over_dists(x, C, languages, save_dir=save_dir+name)
 
-    # Save distance matrix
-    with open(save_dir + "distancematrix_" + name +".pickle", 'wb') as handle:
-        pickle.dump(distance_matrix, handle)
 
-    ### CLUSTERING
+    #
+    # Save distance matrix
+    with open(save_dir + "ComparisonToGold_distancematrix_" + name +".pickle", 'wb') as handle:
+        pickle.dump(distance_matrix, handle)
+    #
+    # ### CLUSTERING
     method = "ward"
 
     cluster_results = linkage(pdist(distance_matrix), method=method)
@@ -61,10 +70,10 @@ for name in lists:
 
     ### PLOT CLUSTER RESULT
 
-    plt.figure(figsize=(25, 10))
-    plt.title(name, fontsize=20)
+    plt.figure(figsize=(25, 5))
+    plt.title(name, fontsize=24)
 
-    plt.ylabel('Distance', fontsize=16)
+    plt.ylabel('Distance', fontsize=20)
     plt.tick_params(labelsize=16)
 
     # Make sure that the color coding for clusters is comparable across plots
@@ -74,19 +83,27 @@ for name in lists:
     else:
         hierarchy.set_link_color_palette(['g', 'y', 'r', 'm', 'c', 'b'])
         threshold = 0.7
-    results = dendrogram(
-        cluster_results,
-        labels=languages,
 
-        # link_color_func=lambda k: getColor(k),
-        count_sort=False,
-        # sistance_sort = True,
-        leaf_font_size=18.,
-        color_threshold=threshold,
-        above_threshold_color='k'
+    #When comparing to gold tree, adjust the color coding by uncommenting this:
+    threshold = 0.9
+    hierarchy.set_link_color_palette(['c', 'r', 'm', 'b'])
+    plt.yticks([])
+    plt.ylabel('', fontsize=20)
+    # Increase edge thickness
+    with plt.rc_context({'lines.linewidth': 2.0}):
+        results = dendrogram(
+            cluster_results,
+            labels=languages,
+            # link_color_func=lambda k: getColor(k),
+            count_sort=False,
+            # sistance_sort = True,
+            leaf_font_size=20.,
+            color_threshold=threshold,
+            above_threshold_color='k'
 
-    )
+        )
 
     print(cluster_results)
-    plt.savefig(save_dir + "Dendrogram_" + name + "_" + method + str(int(threshold * 100)) + ".png")
+    plt.savefig(save_dir + "ComparisonToGold_Dendrogram_" + name + "_" + method + str(int(threshold * 100)) + ".png")
 
+# TODO: get results for combining both lists
