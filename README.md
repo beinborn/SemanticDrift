@@ -3,9 +3,7 @@ The repository contains code for our experiments in:
 
 Lisa Beinborn and Rochelle Choenni (2019):  
 *Semantic Drift in Multilingual Representations*   
-https://arxiv.org/pdf/1904.10820.pdf
-
-We did not upload the extracted embeddings to github because they are too big. If you want to be sure to use exactly the same data, contact us and we will make it available.   
+https://arxiv.org/pdf/1904.10820.pdf  
 
 # Representational Similarity Analysis and Clustering
 The word and sentence embeddings are too large to be uploaded to github. We stored our distance_matrices in pickle-files, so that you can reproduce our plots. 
@@ -19,16 +17,16 @@ If you want to re-run the calculations completely:
 
 __Word-based__
 1) Download the Muse embeddings for the languages of interest from https://github.com/facebookresearch/MUSE. <br> Make sure to cite: <br> 
-Conneau, Alexis, Guillaume Lample, Marc’Aurelio Ranzato, Ludovic Denoyer, and Hervé Jégou (2017): Word translation
-without parallel data, https://arxiv.org/pdf/1710.04087.pdf. 
+Conneau, Alexis, Guillaume Lample, Marc’Aurelio Ranzato, Ludovic Denoyer, and Hervé Jégou (2017): Word translation without parallel data, https://arxiv.org/pdf/1710.04087.pdf. 
 
 2) Specify data_dir to point to the folder where you store the Muse embeddings. Extract the embeddings for the test words by running *extract_word_embeddings.py*. They will be saved in *data/embeddings/word-based/*
 
+
 __Sentence-based__
 
-1) You can contact us to get the embeddings and the sentences (TODO: provide link to data when paper camera-ready). 
+1) You can contact us to get the embeddings and the sentences for research purposes (TODO: provide link to data when paper camera-ready). 
 
-1) If you want to use other resources, you need to install Laser: https://github.com/facebookresearch/LASER and follow their instructions to get embeddings. 
+1) If you want to use other sentences, you need to install Laser: https://github.com/facebookresearch/LASER and follow their instructions to get embeddings. 
 
 
 
