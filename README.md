@@ -6,7 +6,7 @@ Lisa Beinborn and Rochelle Choenni (2019):
 https://arxiv.org/pdf/1904.10820.pdf  
 
 # Representational Similarity Analysis and Clustering
-The word and sentence embeddings are too large to be uploaded to github. We stored our distance_matrices in pickle-files, so that you can reproduce our plots. 
+The word and sentence embeddings are too large to be uploaded to github. We stored our distance_matrices in pickle files, so that you can reproduce our plots. 
 
 * __Word-based__: run *clustering_wordbased.py*. The results will be saved in *results/word-based/*. The plots for our qualitative examples can be reproduced by runnning the methods in the directory *detailed_analyses*.
 
