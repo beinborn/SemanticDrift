@@ -24,7 +24,7 @@ Conneau, Alexis, Guillaume Lample, Marc’Aurelio Ranzato, Ludovic Denoyer, and 
 
 __Sentence-based__
 
-1) You can contact us to get the embeddings and the sentences for research purposes (TODO: provide link to data when paper camera-ready). 
+1) The sentences have been extracted from Europarl and can be found in data/sentence-based/embeddings/part. The embeddings have been extracted using Laser. You can contact us if you want to be sure to use exactly the same embeddings. 
 
 1) If you want to use other sentences, you need to install Laser: https://github.com/facebookresearch/LASER and follow their instructions to get embeddings. 
 
@@ -36,8 +36,10 @@ __Sentence-based__
 2) Run *estimate_translation_quality.py*.
 
 # Quantitative Results Clustering (Table 2) 
-For calculating the quantitative evaluation of the clustering, run *calculate_treescores.py*. 
+For calculating the quantitative evaluation of the clustering, run *calculate_experimental_treescores.py*. 
 
+# Robustness to Translation-Induced Noise (Section 6.4)
+We compared our nearest-neighbor method to using translations from the NorthEuraLex database. If you want to reproduce this, run clustering_wordbased_northeuralex.py. The quantitative results can be obtained by changing the variable category to "northeuralex" in calculate_experimental_treescores.py. 
 
 # Requirements
 We use numpy, scipy, scikit_klearn and matplotlib. If you want to extract new word embeddings, you will also need torch. Check requirements.txt for details. 

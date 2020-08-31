@@ -1,0 +1,5 @@
+.*
+!/.gitignore
+venv/*
+data/sentence-based/embeddings/part/*.raw
+data/word-based/northeuralex-0.9-forms.tsv

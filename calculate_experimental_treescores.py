@@ -50,8 +50,9 @@ def compute_score(config):
 
     elif (config.experiment == 'word'):
         result_dir = "results/word-based/"
-        #categories = ["Pereira", "Swadesh", "combined"]
-        categories = [ "combined"]
+        categories = ["Pereira", "Swadesh", "combined"]
+        #categories = [ "combined"]
+        #categories = ["northeuralex]
         name_prefix = "ComparisonToGold_"
         if (config.dscore):
             mean, maxi, mean_maxi = calculate_score_for_random_trees(config.experiment)

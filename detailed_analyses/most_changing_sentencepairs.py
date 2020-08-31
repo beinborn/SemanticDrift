@@ -1,7 +1,7 @@
-from util.evaluate_RSA import get_dists, compute_distance_over_dists
-
-from matplotlib import pyplot as plt
 import numpy as np
+from matplotlib import pyplot as plt
+
+from util.evaluate_RSA import get_dists
 
 data_dir = '../data/sentence-based/embeddings/part/'
 target_langs = ["de", "nl", "fr", "es", "bg", "da", "cs", "pl", "pt", "it", "ro", "sk", "sl", "sv", 'lt', 'lv']
@@ -17,7 +17,7 @@ for l in target_langs:
     X = X[start:end]
     target_embeddings.append(X)
 
-# Get english sentences
+# Get English sentences
 with open(data_dir + "en_sents.txt") as f:
     content = f.readlines()
 content = [x.strip() for x in content]

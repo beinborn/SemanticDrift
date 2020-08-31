@@ -66,7 +66,7 @@ pairs = {}
 
 
 
-#Extract the similarity value for a word pair for all languages
+# Extract the similarity value for a word pair for all languages
 for word1 in range(0, len(words)):
     for word2 in range(0, len(words)):
         if word1 < word2:
