@@ -12,6 +12,11 @@ The word and sentence embeddings are too large to be uploaded to github. We stor
 
 * __Sentence-based__: run *clustering_sentencebased.py*. The results will be saved in *results/sentence-based/*.
 
+|          |   positive |   negative |   neutral |
+|:---------|-----------:|-----------:|----------:|
+| positive |         11 |          6 |        14 |
+| negative |         12 |         11 |         8 |
+| neutral  |         10 |          3 |        15 |
 
 If you want to re-run the calculations completely: 
 
